@@ -8,3 +8,7 @@ steps:
   displayName: Publish Windows application
 - script: dotnet publish --configuration Release --output out/linux --self-contained --runtime linux-x64 /p:PublishSingleFile=true /p:IncludeSymbolsInSingleFile=true
   displayName: Publish Linux application
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathtoPublish: out
+    artifactName: distributions
