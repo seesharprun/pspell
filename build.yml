@@ -24,15 +24,15 @@ stages:
   - job: publish_github
     displayName: Publish to GitHub
     steps:
+    - task: DownloadBuildArtifacts@0
+      inputs:
+        buildType: current
+        artifactName: distributions
+        downloadPath: $(Build.ArtifactStagingDirectory)
     - task: GitHubRelease@0
       inputs:
         gitHubConnection: gh_ssr
         repositoryName: seesharprun/pspell
         tagSource: manual
-        tag: cool123
-
-
-
-
-
-
+        tag: $(Build.BuildNumber)
+        assets: $(Build.ArtifactStagingDirectory)/distributions/**/*
