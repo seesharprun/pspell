@@ -18,6 +18,13 @@ stages:
       inputs:
         pathtoPublish: out
         artifactName: distributions
+- stage: publish
+  displayName: Publish application
+  jobs:
+  - job: publish_github
+    displayName: Publish to GitHub
+    steps:
+    - script: echo 'Hello World'
 
 
 
