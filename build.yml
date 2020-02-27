@@ -27,8 +27,6 @@ stages:
     - task: DownloadBuildArtifacts@0
       inputs:
         buildType: current
-        downloadType: single
-        artifactName: distributions
         downloadPath: $(Build.ArtifactStagingDirectory)
     - task: GitHubRelease@0
       inputs:
@@ -36,9 +34,7 @@ stages:
         repositoryName: seesharprun/pspell
         tagSource: manual
         tag: $(Build.BuildNumber)      
-        assets: |
-          $(Build.ArtifactStagingDirectory)/win/pspell.exe
-          $(Build.ArtifactStagingDirectory)/linux/pspell
+        assets: $(Build.ArtifactStagingDirectory)/distributions/**/*
   - job: publish_dockerhub
     displayName: Publish to Docker GitHub
     steps:
@@ -52,5 +48,15 @@ stages:
       inputs:
         command: buildAndPush
         containerRegistry: dockerhub_sidneyandrews
-        repository: seesharprun
-        tags: latest
+        repository: seesharprun/pspell
+        tags: |
+          $(Build.BuildNumber)
+          latest
+  - job: publish_nuget
+    displayName: Publish to NuGet
+    pool:
+      vmImage: ubuntu-latest
+    container: mcr.microsoft.com/dotnet/core/sdk:3.1    
+    steps:
+    - script: dotnet pack --output pkg -p:PackAsTool=true -p:ToolCommandName=pspell
+      displayName: Package DotNet Tool    
