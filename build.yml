@@ -27,6 +27,7 @@ stages:
     - task: DownloadBuildArtifacts@0
       inputs:
         buildType: current
+        artifactName: distributions
         downloadPath: $(Build.ArtifactStagingDirectory)
     - task: GitHubRelease@0
       inputs:
@@ -58,5 +59,10 @@ stages:
       vmImage: ubuntu-latest
     container: mcr.microsoft.com/dotnet/core/sdk:3.1    
     steps:
-    - script: dotnet pack --output pkg -p:PackAsTool=true -p:ToolCommandName=pspell
+    - script: dotnet pack --output $(Build.ArtifactStagingDirectory) -p:PackAsTool=true -p:ToolCommandName=pspell
       displayName: Package DotNet Tool    
+    - task: NuGetCommand@2
+      inputs:
+        packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg'
+        command: 'push'
+        includeNugetOrg: 'true'
