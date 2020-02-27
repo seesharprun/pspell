@@ -20,3 +20,23 @@ stages:
       inputs:
         pathtoPublish: out
         artifactName: distributions
+- stage: publish
+  displayName: Publish Application
+  jobs:
+  - job: publish_github
+    displayName: Publish to GitHub
+    steps:
+    - task: DownloadBuildArtifacts@0
+      inputs:
+        buildType: current
+        downloadType: single
+        artifactName: distributions
+        downloadPath: $(Build.ArtifactStagingDirectory)
+    - task: GitHubRelease@0
+      inputs:
+        gitHubConnection: github_seesharprun
+        repositoryName: pspell
+        action: create
+        target: $(Build.SourceVersion)
+        tagSource: auto
+        assets: $(Build.ArtifactStagingDirectory)/*
