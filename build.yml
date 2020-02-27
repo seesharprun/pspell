@@ -24,7 +24,12 @@ stages:
   - job: publish_github
     displayName: Publish to GitHub
     steps:
-    - script: echo 'Hello World'
+    - task: GitHubRelease@0
+      inputs:
+        gitHubConnection: gh_ssr
+        repositoryName: seesharprun/pspell
+        tagSource: manual
+        tag: cool123
 
 
 
