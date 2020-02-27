@@ -1,14 +1,26 @@
-pool:
-  vmImage: ubuntu-latest
-container: mcr.microsoft.com/dotnet/core/sdk:3.1
-steps:
-- script: dotnet --version
-  displayName: Check .NET Version
-- script: dotnet publish --configuration Release --output out/win --self-contained --runtime win-x64 /p:PublishSingleFile=true /p:IncludeSymbolsInSingleFile=true
-  displayName: Publish Windows application
-- script: dotnet publish --configuration Release --output out/linux --self-contained --runtime linux-x64 /p:PublishSingleFile=true /p:IncludeSymbolsInSingleFile=true
-  displayName: Publish Linux application
-- task: PublishBuildArtifacts@1
-  inputs:
-    pathtoPublish: out
-    artifactName: distributions
+stages:
+- stage: build
+  displayName: Build .NET Project
+  jobs:
+  - job: dotnetpub
+    displayName: Publish .NET Project Artifacts    
+    pool:
+      vmImage: ubuntu-latest
+    container: mcr.microsoft.com/dotnet/core/sdk:3.1
+    steps:
+    - script: dotnet --version
+      displayName: Check .NET Version
+    - script: dotnet publish --configuration Release --output out/win --self-contained --runtime win-x64 /p:PublishSingleFile=true /p:IncludeSymbolsInSingleFile=true
+      displayName: Publish Windows application
+    - script: dotnet publish --configuration Release --output out/linux --self-contained --runtime linux-x64 /p:PublishSingleFile=true /p:IncludeSymbolsInSingleFile=true
+      displayName: Publish Linux application
+    - task: PublishBuildArtifacts@1
+      inputs:
+        pathtoPublish: out
+        artifactName: distributions
+
+
+
+
+
+
