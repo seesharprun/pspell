@@ -37,7 +37,7 @@ stages:
         tag: $(Build.BuildNumber)      
         assets: $(Build.ArtifactStagingDirectory)/distributions/**/*
   - job: publish_dockerhub
-    displayName: Publish to Docker GitHub
+    displayName: Publish to Docker Hub
     steps:
     - task: Docker@2
       displayName: Login to Docker Hub
@@ -53,16 +53,3 @@ stages:
         tags: |
           $(Build.BuildNumber)
           latest
-  - job: publish_nuget
-    displayName: Publish to NuGet
-    pool:
-      vmImage: ubuntu-latest
-    container: mcr.microsoft.com/dotnet/core/sdk:3.1    
-    steps:
-    - script: dotnet pack --output $(Build.ArtifactStagingDirectory) -p:PackAsTool=true -p:ToolCommandName=pspell
-      displayName: Package DotNet Tool    
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: push
-        nugetFeedType: external
-        externalEndPoint: nuget_seesharprun
