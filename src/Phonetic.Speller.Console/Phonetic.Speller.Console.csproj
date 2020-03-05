@@ -4,6 +4,8 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <RootNamespace>pspell</RootNamespace>
     <AssemblyName>pspell</AssemblyName>
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>pspell</ToolCommandName>
   </PropertyGroup>  
   <ItemGroup>
     <RuntimeHostConfigurationOption Include="System.Globalization.Invariant" Value="true" />

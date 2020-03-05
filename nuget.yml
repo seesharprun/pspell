@@ -6,7 +6,7 @@ stages:
     displayName: Push Console Application as DotNet Tool
     steps:
     - task: DotNetCoreCLI@2
-      displayName: Package Console Application
+      displayName: Package Projects
       inputs:
         command: pack
         outputDir: $(Build.ArtifactStagingDirectory)
