@@ -19,6 +19,6 @@ stages:
       displayName: Push Console Application to NuGet
       inputs:
         command: push
-        feedsToUse: select
-        vstsFeed: Munsons/Farm
-        packagesToPush: $(Build.ArtifactStagingDirectory)/*.nupkg
+        publishVstsFeed: Farm
+        allowPackageConflicts: true
+        packagesToPush: $(Build.ArtifactStagingDirectory)/**/*.nupkg
