@@ -3,6 +3,7 @@ trigger:
     include:
     - master
   paths:
+    exclude:
     - *.yml
 stages:
 - stage: build
