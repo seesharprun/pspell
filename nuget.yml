@@ -3,9 +3,9 @@ stages:
   displayName: Push to NuGet
   jobs:
   - job: push_consoleapp
-    displayName: Push Console Application as DotNet Tool
-    vmImage:
-      pool: ubuntu-latest
+    displayName: Push Console Application as DotNet Tool  
+    pool:
+      vmImage: ubuntu-latest
     container: mcr.microsoft.com/dotnet/core/sdk:3.1
     steps:
     - script: dotnet pack --output pkg
