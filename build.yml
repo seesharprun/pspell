@@ -10,13 +10,16 @@ stages:
     steps:
     - script: dotnet --version
       displayName: Check .NET Version
-    - script: dotnet publish --configuration Release --output out/win --self-contained --runtime win-x64 /p:PublishSingleFile=true /p:IncludeSymbolsInSingleFile=true
+    - script: dotnet publish --configuration Release --output $(Build.ArtifactStagingDirectory)/win --self-contained --runtime win-x64 /p:PublishSingleFile=true /p:IncludeSymbolsInSingleFile=true
       displayName: Publish Windows application
-    - script: dotnet publish --configuration Release --output out/linux --self-contained --runtime linux-x64 /p:PublishSingleFile=true /p:IncludeSymbolsInSingleFile=true
+      workingDirectory: src/Phonetic.Speller.Console
+    - script: dotnet publish --configuration Release --output $(Build.ArtifactStagingDirectory)/linux --self-contained --runtime linux-x64 /p:PublishSingleFile=true /p:IncludeSymbolsInSingleFile=true
       displayName: Publish Linux application
+      workingDirectory: src/Phonetic.Speller.Console
     - task: PublishBuildArtifacts@1
+      displayName: Publish Build Artifact
       inputs:
-        pathtoPublish: out
+        pathtoPublish: $(Build.ArtifactStagingDirectory)
         artifactName: distributions
 - stage: publish
   displayName: Publish application
@@ -30,6 +33,7 @@ stages:
         command: login
         containerRegistry: dh_sidney
     - task: Docker@2
+      displayName: Build Container Image and Push to Docker Hub
       inputs:
         containerRegistry: dh_sidney
         repository: seesharprun/pspell
@@ -41,11 +45,13 @@ stages:
     displayName: Publish to GitHub
     steps:
     - task: DownloadBuildArtifacts@0
+      displayName: Download Build Artifact
       inputs:
         buildType: current
         artifactName: distributions
         downloadPath: $(Build.ArtifactStagingDirectory)
     - task: GitHubRelease@0
+      displayName: Create GitHub Release
       inputs:
         gitHubConnection: gh_ssr
         repositoryName: seesharprun/pspell

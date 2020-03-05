@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY . ./
 
-RUN dotnet publish --configuration Release --output out
+RUN dotnet publish src/Phonetic.Speller.Console --configuration Release --output out
 
 FROM mcr.microsoft.com/dotnet/core/runtime:3.1
 

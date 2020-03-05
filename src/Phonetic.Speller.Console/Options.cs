@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using CommandLine;
 using CommandLine.Text;
 
-namespace pspell
+namespace Phonetic.Speller.Console
 {
     internal sealed class Options
     {

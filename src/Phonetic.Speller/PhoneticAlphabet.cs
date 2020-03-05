@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 
-namespace pspell
+namespace Phonetic.Speller
 {
-    public static class Phonetic
+    internal static class PhoneticAlphabet
     {
         public static Dictionary<char, string> Alphabet { get; } = new Dictionary<char, string>
         {

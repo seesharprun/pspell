@@ -12,4 +12,7 @@
     <PackageReference Include="Colorful.Console" Version="1.2.10" />
     <PackageReference Include="CommandLineParser" Version="2.7.82" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Phonetic.Speller\Phonetic.Speller.csproj" />
+  </ItemGroup>
 </Project>

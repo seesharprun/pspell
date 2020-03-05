@@ -1,9 +1,9 @@
 ﻿using System.Drawing;
 using CommandLine;
 using Arguments = CommandLine.Parser;
-using Console = Colorful.Console;
+using Out = Colorful.Console;
 
-namespace pspell
+namespace Phonetic.Speller.Console
 {
     internal sealed class Program
     {
@@ -13,15 +13,14 @@ namespace pspell
 
         private static int Run(Options options)
         {
+            PhoneticSpeller speller = new PhoneticSpeller();
             foreach(string word in options.Words)
             {
-                Console.WriteLine($"Word Found:\t{word}", Color.Yellow);
-                foreach(char character in word.Trim().ToUpper().ToCharArray())
+                Out.WriteLine($"Word Found:\t{word}", Color.Yellow);
+                foreach((char character, string nato) in speller.GetSpelling(word))
                 {
-                    string nato = "Not Found";
-                    Phonetic.Alphabet.TryGetValue(character, out nato);
-                    Console.Write($"{character}\t=>", Color.Green);
-                    Console.WriteLine($"\t{nato}", Color.White);
+                    Out.Write($"{character}\t=>", Color.Green);
+                    Out.WriteLine($"\t{nato}", Color.White);
                 }
             }
             return 0;
