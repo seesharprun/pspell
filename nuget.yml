@@ -10,14 +10,15 @@ stages:
       inputs:
         command: pack
         outputDir: $(Build.ArtifactStagingDirectory)
-    - task: NuGetCommand@2
-      displayName: Push Console Application to NuGet
-      inputs:
-        command: push
-        feedsToUse: Farm
-        packagesToPush: $(Build.ArtifactStagingDirectory)/*.nupkg
     - task: PublishBuildArtifacts@1
       displayName: Publish Package Artifacts
       inputs:
         pathtoPublish: $(Build.ArtifactStagingDirectory)
         artifactName: packages
+    - task: NuGetCommand@2
+      displayName: Push Console Application to NuGet
+      inputs:
+        command: push
+        feedsToUse: select
+        vstsFeed: Munsons/Farm
+        packagesToPush: $(Build.ArtifactStagingDirectory)/*.nupkg
