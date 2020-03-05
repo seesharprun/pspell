@@ -1,6 +1,0 @@
-jobs:
-- job: push_nuget
-  displayName: Push to NuGet
-  steps:
-  - script: echo Hello, world!
-    displayName: Run a one-line script
