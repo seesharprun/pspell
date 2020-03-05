@@ -31,11 +31,11 @@ stages:
       displayName: Login to Docker Hub
       inputs:
         command: login
-        containerRegistry: dh_sidney
+        containerRegistry: dh_sidneyandrews
     - task: Docker@2
       displayName: Build Container Image and Push to Docker Hub
       inputs:
-        containerRegistry: dh_sidney
+        containerRegistry: dh_sidneyandrews
         repository: seesharprun/pspell
         command: buildAndPush
         tags: |
@@ -53,7 +53,7 @@ stages:
     - task: GitHubRelease@0
       displayName: Create GitHub Release
       inputs:
-        gitHubConnection: gh_ssr
+        gitHubConnection: gh_seesharprun
         repositoryName: seesharprun/pspell
         tagSource: manual
         tag: $(Build.BuildNumber)
